@@ -36,6 +36,7 @@ public abstract class Animal {
     }
 
     public Location getLocation() {
+        // todo check location is not null
         return location;
     }
 }

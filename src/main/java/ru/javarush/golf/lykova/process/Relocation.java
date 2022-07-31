@@ -2,6 +2,7 @@ package ru.javarush.golf.lykova.process;
 
 import ru.javarush.golf.lykova.model.Animal;
 import ru.javarush.golf.lykova.model.Island;
+import ru.javarush.golf.lykova.model.Location;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,6 +29,17 @@ public class Relocation {
                 case 3 -> yOffset--;
             }
         }
-        island.moveOffset(animal, xOffset, yOffset);
+        if (xOffset == 0 && yOffset == 0) {
+            return;
+        }
+        Location possibleLocation = island.takeLocationByOffset(animal, xOffset, yOffset);
+        if (canRelocate(possibleLocation, animal)) {
+            island.moveOffset(animal, xOffset, yOffset);
+        }
+    }
+
+    private boolean canRelocate(Location possibleLocation, Animal animal) {
+        int animalAmount = possibleLocation.takeAnimalAmount(animal);
+        return animalAmount < animal.getMaxCountInLocation();
     }
 }

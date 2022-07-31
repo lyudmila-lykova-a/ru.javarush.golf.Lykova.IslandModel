@@ -30,6 +30,16 @@ public class Location {
         animalList.add(animal);
     }
 
+    public int takeAnimalAmount(Animal animal) {
+        int result = 0;
+        for (Animal currentAnimal : animalList) {
+            if(currentAnimal.getClass().getName().equals(animal.getClass().getName())) {
+                result++;
+            }
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Location{" +
