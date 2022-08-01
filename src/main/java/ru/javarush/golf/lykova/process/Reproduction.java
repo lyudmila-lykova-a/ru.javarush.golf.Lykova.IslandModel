@@ -12,7 +12,9 @@ public class Reproduction {
         if (animal.getLocation().takeAnimalAmount(animal) >= animal.getMaxCountInLocation()) {
             return;
         }
-
+        if (animal.getLocation().takeAnimalAmount(animal) < 2) {
+            return;
+        }
         double reproductionPossibility = animal.getReproductionPossibility();
         if (random.nextDouble() >= reproductionPossibility) {
             return;
