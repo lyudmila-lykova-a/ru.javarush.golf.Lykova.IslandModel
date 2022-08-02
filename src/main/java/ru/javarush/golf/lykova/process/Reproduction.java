@@ -9,10 +9,10 @@ public class Reproduction {
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public void reproduce(Animal animal) {
-        if (animal.getLocation().takeAnimalAmount(animal) >= animal.getMaxCountInLocation()) {
+        if (animal.getLocation().takeCreatureAmount(animal) >= animal.getMaxCountInLocation()) {
             return;
         }
-        if (animal.getLocation().takeAnimalAmount(animal) < 2) {
+        if (animal.getLocation().takeCreatureAmount(animal) < 2) {
             return;
         }
         double reproductionPossibility = animal.getReproductionPossibility();

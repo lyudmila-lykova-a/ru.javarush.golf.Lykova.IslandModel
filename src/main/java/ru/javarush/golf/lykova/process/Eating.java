@@ -1,6 +1,7 @@
 package ru.javarush.golf.lykova.process;
 
 import ru.javarush.golf.lykova.model.Animal;
+import ru.javarush.golf.lykova.model.Creature;
 import ru.javarush.golf.lykova.model.Location;
 
 import java.util.List;
@@ -15,18 +16,18 @@ public class Eating {
             return;
         }
         Location location = consumerAnimal.getLocation();
-        Map<Class<? extends Animal>, Double> animalClassToEatingPossibilityMap = consumerAnimal.getAnimalClassToEatingPossibilityMap();
-        List<Animal> eatableAnimalsList = location.takeAnimals(animalClassToEatingPossibilityMap.keySet());
-        if (eatableAnimalsList.isEmpty()) {
+        Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap = consumerAnimal.getCreatureClassToEatingPossibilityMap();
+        List<Creature> eatableCreaturesList = location.takeCreatures(creatureClassToEatingPossibilityMap.keySet());
+        if (eatableCreaturesList.isEmpty()) {
             return;
         }
-        Animal victimAnimal = eatableAnimalsList.get(random.nextInt(eatableAnimalsList.size()));
-        Double eatingPossibility = animalClassToEatingPossibilityMap.get(victimAnimal.getClass());
+        Creature victimCreature = eatableCreaturesList.get(random.nextInt(eatableCreaturesList.size()));
+        Double eatingPossibility = creatureClassToEatingPossibilityMap.get(victimCreature.getClass());
         if (random.nextDouble() >= eatingPossibility) {
             return;
         }
-        consumerAnimal.eat(victimAnimal);
-        victimAnimal.getLocation().killAnimal(victimAnimal);
+        consumerAnimal.eat(victimCreature);
+        victimCreature.getLocation().killCreature(victimCreature);
     }
 }
 

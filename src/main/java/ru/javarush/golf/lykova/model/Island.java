@@ -24,25 +24,25 @@ public class Island {
         return locations[y][x];
     }
 
-    public Location takeLocationByOffset(Animal animal, int xOffset, int yOffset) {
-        Location location = animal.getLocation();
+    public Location takeLocationByOffset(Creature creature, int xOffset, int yOffset) {
+        Location location = creature.getLocation();
         int x = correctX(location.getX() + xOffset);
         int y = correctY(location.getY() + yOffset);
         return takeLocation(x, y);
     }
 
-    public void move(Animal animal, int x, int y) {
-        takeLocation(x, y).add(animal);
+    public void move(Creature creature, int x, int y) {
+        takeLocation(x, y).add(creature);
     }
 
-    public void moveOffset(Animal animal, int xOffset, int yOffset) {
+    public void moveOffset(Creature creature, int xOffset, int yOffset) {
         if (xOffset == 0 && yOffset == 0) {
             return;
         }
-        Location location = animal.getLocation();
+        Location location = creature.getLocation();
         int x = correctX(location.getX() + xOffset);
         int y = correctY(location.getY() + yOffset);
-        move(animal, x, y);
+        move(creature, x, y);
     }
 
     private int correctX(int x) {

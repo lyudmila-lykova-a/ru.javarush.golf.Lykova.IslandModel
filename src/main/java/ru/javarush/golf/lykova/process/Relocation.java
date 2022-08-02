@@ -1,6 +1,6 @@
 package ru.javarush.golf.lykova.process;
 
-import ru.javarush.golf.lykova.model.Animal;
+import ru.javarush.golf.lykova.model.Creature;
 import ru.javarush.golf.lykova.model.Island;
 import ru.javarush.golf.lykova.model.Location;
 
@@ -16,10 +16,10 @@ public class Relocation {
         this.island = island;
     }
 
-    public void relocate(Animal animal) {
+    public void relocate(Creature creature) {
         int xOffset = 0;
         int yOffset = 0;
-        int stepsCount = random.nextInt(animal.getMaxSpeed() + 1);
+        int stepsCount = random.nextInt(creature.getMaxSpeed() + 1);
         for (int i = 0; i < stepsCount; i++) {
             int direction = random.nextInt(4);
             switch(direction) {
@@ -32,14 +32,14 @@ public class Relocation {
         if (xOffset == 0 && yOffset == 0) {
             return;
         }
-        Location possibleLocation = island.takeLocationByOffset(animal, xOffset, yOffset);
-        if (canRelocate(possibleLocation, animal)) {
-            island.moveOffset(animal, xOffset, yOffset);
+        Location possibleLocation = island.takeLocationByOffset(creature, xOffset, yOffset);
+        if (canRelocate(possibleLocation, creature)) {
+            island.moveOffset(creature, xOffset, yOffset);
         }
     }
 
-    private boolean canRelocate(Location possibleLocation, Animal animal) {
-        int animalAmount = possibleLocation.takeAnimalAmount(animal);
-        return animalAmount < animal.getMaxCountInLocation();
+    private boolean canRelocate(Location possibleLocation, Creature creature) {
+        int creatureAmount = possibleLocation.takeCreatureAmount(creature);
+        return creatureAmount < creature.getMaxCountInLocation();
     }
 }

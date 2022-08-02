@@ -8,7 +8,7 @@ public class Location {
 
     private final int x;
     private final int y;
-    private final List<Animal> animalList = new ArrayList<>();
+    private final List<Creature> creatureList = new ArrayList<>();
 
     public Location(int x, int y) {
         this.x = x;
@@ -23,34 +23,34 @@ public class Location {
         return y;
     }
 
-    public void add(Animal animal) {
-        if (animal.getLocation() != null) {
-            animal.getLocation().animalList.remove(animal);
+    public void add(Creature creature) {
+        if (creature.getLocation() != null) {
+            creature.getLocation().creatureList.remove(creature);
         }
-        animal.setLocation(this);
-        animalList.add(animal);
+        creature.setLocation(this);
+        creatureList.add(creature);
     }
 
-    public void killAnimal(Animal animal) {
-        animal.setLocation(null);
-        animalList.remove(animal);
+    public void killCreature(Creature creature) {
+        creature.setLocation(null);
+        creatureList.remove(creature);
     }
 
-    public int takeAnimalAmount(Animal animal) {
+    public int takeCreatureAmount(Creature creature) {
         int result = 0;
-        for (Animal currentAnimal : animalList) {
-            if (currentAnimal.getClass().getName().equals(animal.getClass().getName())) {
+        for (Creature currentCreature : creatureList) {
+            if (currentCreature.getClass().getName().equals(creature.getClass().getName())) {
                 result++;
             }
         }
         return result;
     }
 
-    public List<Animal> takeAnimals(Collection<Class<? extends Animal>> animalClassList) {
-        List<Animal> result = new ArrayList<>();
-        for (Animal animal : animalList) {
-            if (animalClassList.contains(animal.getClass())) {
-                result.add(animal);
+    public List<Creature> takeCreatures(Collection<Class<? extends Creature>> creatureClassList) {
+        List<Creature> result = new ArrayList<>();
+        for (Creature creature : creatureList) {
+            if (creatureClassList.contains(creature.getClass())) {
+                result.add(creature);
             }
         }
         return result;
@@ -61,7 +61,7 @@ public class Location {
         return "Location{" +
                 "x=" + x +
                 ", y=" + y +
-                ", animalList=" + animalList +
+                ", animalList=" + creatureList +
                 '}';
     }
 
