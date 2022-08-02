@@ -7,18 +7,12 @@ import ru.javarush.golf.lykova.model.Wolf;
 import ru.javarush.golf.lykova.process.Eating;
 import ru.javarush.golf.lykova.process.Relocation;
 import ru.javarush.golf.lykova.process.Reproduction;
+import ru.javarush.golf.lykova.process.WorldGenerator;
 
 public class Main {
-    public static void main(String[] args) {
-        Island island = new Island(3, 3);
-        Wolf wolf = new Wolf();
-        island.move(wolf, 0, 0);
-        Mouse mouse = new Mouse();
-        island.move(mouse, 0, 0);
-        System.out.println(island);
-        System.out.println();
-        Eating eating = new Eating();
-        eating.eat(wolf);
+    public static void main(String[] args) throws ReflectiveOperationException {
+        WorldGenerator worldGenerator = new WorldGenerator(3, 3);
+        Island island = worldGenerator.generate();
         System.out.println(island);
     }
 }

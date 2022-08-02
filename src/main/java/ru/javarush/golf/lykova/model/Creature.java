@@ -72,4 +72,9 @@ public abstract class Creature {
     public void eat(Creature creature) {
         satiety = Math.min(satiety + creature.getWeight(), fullSatiety);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
