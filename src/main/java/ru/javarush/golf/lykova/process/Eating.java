@@ -1,5 +1,6 @@
 package ru.javarush.golf.lykova.process;
 
+import ru.javarush.golf.lykova.model.AbleToEat;
 import ru.javarush.golf.lykova.model.Animal;
 import ru.javarush.golf.lykova.model.Creature;
 import ru.javarush.golf.lykova.model.Location;
@@ -11,12 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Eating {
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public void eat(Animal consumerAnimal){
-        if (consumerAnimal.getSatiety() >= consumerAnimal.getFullSatiety()) {
+    public void eat(AbleToEat ableToEat, Location location){
+        if (ableToEat.getSatiety() >= ableToEat.getFullSatiety()) {
             return;
         }
-        Location location = consumerAnimal.getLocation();
-        Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap = consumerAnimal.getCreatureClassToEatingPossibilityMap();
+        Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap = ableToEat.getCreatureClassToEatingPossibilityMap();
         List<Creature> eatableCreaturesList = location.takeCreatures(creatureClassToEatingPossibilityMap.keySet());
         if (eatableCreaturesList.isEmpty()) {
             return;
@@ -26,7 +26,7 @@ public class Eating {
         if (random.nextDouble() >= eatingPossibility) {
             return;
         }
-        consumerAnimal.eat(victimCreature);
+        ableToEat.eat(victimCreature);
         victimCreature.getLocation().killCreature(victimCreature);
     }
 }

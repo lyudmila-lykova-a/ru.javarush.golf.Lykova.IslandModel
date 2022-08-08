@@ -10,13 +10,7 @@ public class Relocation {
 
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    private final Island island;
-
-    public Relocation(Island island) {
-        this.island = island;
-    }
-
-    public void relocate(Creature creature) {
+    public void relocate(Island island, Creature creature) {
         int xOffset = 0;
         int yOffset = 0;
         int stepsCount = random.nextInt(creature.getMaxSpeed() + 1);

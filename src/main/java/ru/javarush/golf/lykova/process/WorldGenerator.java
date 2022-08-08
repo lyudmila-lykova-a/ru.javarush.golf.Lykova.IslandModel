@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldGenerator {
-    
+
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     private final int weight;

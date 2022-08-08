@@ -1,8 +1,6 @@
 package ru.javarush.golf.lykova.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Location {
 
@@ -54,6 +52,10 @@ public class Location {
             }
         }
         return result;
+    }
+
+    public Set<Creature> takeAllCreatures() {
+        return Set.copyOf(creatureList);
     }
 
     @Override

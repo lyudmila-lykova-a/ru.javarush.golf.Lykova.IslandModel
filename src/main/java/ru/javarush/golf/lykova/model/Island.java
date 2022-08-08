@@ -1,6 +1,9 @@
 package ru.javarush.golf.lykova.model;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Island {
 
@@ -63,6 +66,14 @@ public class Island {
         } else {
             return y;
         }
+    }
+
+    public Set<Location> takeAllLocations() {
+        Set<Location> result = new LinkedHashSet<>();
+        for (Location[] locationArray : locations) {
+            result.addAll(Arrays.asList(locationArray));
+        }
+        return result;
     }
 
     @Override
