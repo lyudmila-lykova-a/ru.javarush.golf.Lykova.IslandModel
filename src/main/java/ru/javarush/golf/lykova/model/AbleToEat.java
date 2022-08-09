@@ -7,4 +7,5 @@ public interface AbleToEat {
     void eat(Creature creature);
     double getSatiety();
     double getFullSatiety();
+    void hunger();
 }

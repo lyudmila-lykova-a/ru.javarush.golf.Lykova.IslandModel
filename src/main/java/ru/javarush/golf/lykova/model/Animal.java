@@ -43,4 +43,11 @@ public abstract class Animal extends Creature implements AbleToEat, Reproductabl
     public double getReproductionPossibility() {
         return reproductionPossibility;
     }
+
+    @Override
+    public void hunger() {
+        double decreaseSatiety = satiety - fullSatiety * 0.01;
+        satiety = Math.max(satiety - decreaseSatiety, 0);
+    }
+
 }

@@ -1,10 +1,7 @@
 package ru.javarush.golf.lykova;
 
 import ru.javarush.golf.lykova.model.*;
-import ru.javarush.golf.lykova.process.Eating;
-import ru.javarush.golf.lykova.process.Relocation;
-import ru.javarush.golf.lykova.process.Reproduction;
-import ru.javarush.golf.lykova.process.WorldGenerator;
+import ru.javarush.golf.lykova.process.*;
 
 import java.util.Set;
 import java.util.concurrent.Executors;
@@ -15,6 +12,7 @@ public class LifeCycle {
     private final Eating eating = new Eating();
     private final Reproduction reproduction = new Reproduction();
     private final Relocation relocation = new Relocation();
+    private final StarvationDeath starvationDeath = new StarvationDeath();
     private Island island;
 
     public void startLife() throws ReflectiveOperationException {
@@ -36,6 +34,9 @@ public class LifeCycle {
     private void creaturesProcessing(Set<Creature> creatureSet) {
         for (Creature creature : creatureSet) {
             singleCreatureProcessing(creature);
+            if (creature instanceof AbleToEat ableToEat) {
+                starvationDeath.killIfLowSatiety(ableToEat);
+            }
         }
     }
 

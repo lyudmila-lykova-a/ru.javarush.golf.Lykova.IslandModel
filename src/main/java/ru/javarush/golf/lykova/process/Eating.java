@@ -1,7 +1,6 @@
 package ru.javarush.golf.lykova.process;
 
 import ru.javarush.golf.lykova.model.AbleToEat;
-import ru.javarush.golf.lykova.model.Animal;
 import ru.javarush.golf.lykova.model.Creature;
 import ru.javarush.golf.lykova.model.Location;
 
