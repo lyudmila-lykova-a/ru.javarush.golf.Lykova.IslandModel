@@ -1,5 +1,7 @@
 package ru.javarush.golf.lykova.model;
 
+import ru.javarush.golf.lykova.config.ApplicationConfig;
+
 import java.util.Collections;
 import java.util.Map;
 
@@ -10,9 +12,9 @@ public abstract class Animal extends Creature implements AbleToEat, Reproductabl
     private double satiety; // сытость, кг
     private final double reproductionPossibility; // вероятность размножения 0 - 1;
 
-    public Animal(double weight, int maxCountInLocation, int maxSpeed, double reproductionPossibility,
+    public Animal(double width, int maxCountInLocation, int maxSpeed, double reproductionPossibility,
                   Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap, double satiety) {
-        super(weight, maxCountInLocation, maxSpeed);
+        super(width, maxCountInLocation, maxSpeed);
         this.creatureClassToEatingPossibilityMap = creatureClassToEatingPossibilityMap;
         this.fullSatiety = satiety;
         this.satiety = satiety;
@@ -46,7 +48,7 @@ public abstract class Animal extends Creature implements AbleToEat, Reproductabl
 
     @Override
     public void hunger() {
-        double decreaseSatiety = satiety - fullSatiety * 0.01;
+        double decreaseSatiety = satiety - fullSatiety * ApplicationConfig.HUNGER_FACTOR;
         satiety = Math.max(satiety - decreaseSatiety, 0);
     }
 

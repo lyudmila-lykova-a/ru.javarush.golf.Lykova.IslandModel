@@ -13,16 +13,16 @@ public class WorldGenerator {
 
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    private final int weight;
+    private final int width;
     private final int height;
 
-    public WorldGenerator(int weight, int height) {
-        this.weight = weight;
+    public WorldGenerator(int width, int height) {
+        this.width = width;
         this.height = height;
     }
 
     public Island generate() throws ReflectiveOperationException {
-        Island island = new Island(weight, height);
+        Island island = new Island(width, height);
         for (CreatureType creatureType : CreatureType.values()) {
             List<Creature> creatures = generateCreaturesByType(creatureType.getCreatureClass(), creatureType.getInitAmount());
             creatures.forEach(creature -> allocate(island, creature));
@@ -42,7 +42,7 @@ public class WorldGenerator {
     private void allocate(Island island, Creature creature) {
         int retries = 10;
         while (retries > 0) {
-            int x = random.nextInt(0, weight);
+            int x = random.nextInt(0, width);
             int y = random.nextInt(0, height);
 
             if (canRelocate(island.takeLocation(x, y), creature)) {

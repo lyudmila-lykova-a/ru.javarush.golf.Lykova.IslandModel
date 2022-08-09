@@ -1,5 +1,6 @@
 package ru.javarush.golf.lykova;
 
+import ru.javarush.golf.lykova.config.ApplicationConfig;
 import ru.javarush.golf.lykova.model.*;
 import ru.javarush.golf.lykova.process.*;
 
@@ -16,12 +17,12 @@ public class LifeCycle {
     private Island island;
 
     public void startLife() throws ReflectiveOperationException {
-        WorldGenerator worldGenerator = new WorldGenerator(3, 3);
+        WorldGenerator worldGenerator = new WorldGenerator(ApplicationConfig.ISLAND_WIDTH, ApplicationConfig.ISLAND_HEIGHT);
         island = worldGenerator.generate();
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(
                 () -> iterationProcessing(island),
                 0,
-                1000,
+                ApplicationConfig.TACT_DURATION_MS,
                 TimeUnit.MILLISECONDS);
     }
 
