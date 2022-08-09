@@ -14,6 +14,7 @@ public class LifeCycle {
     private final Reproduction reproduction = new Reproduction();
     private final Relocation relocation = new Relocation();
     private final StarvationDeath starvationDeath = new StarvationDeath();
+    private final IslandInfo islandInfo = new IslandInfo();
     private Island island;
 
     public void startLife() throws ReflectiveOperationException {
@@ -27,13 +28,22 @@ public class LifeCycle {
     }
 
     private void iterationProcessing(Island island) {
-        for (Location location : island.takeAllLocations()) {
-            creaturesProcessing(location.takeAllCreatures());
+        try {
+            for (Location location : island.takeAllLocations()) {
+                creaturesProcessing(location.takeAllCreatures());
+            }
+            islandInfo.printIslandInfo(island);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+
     private void creaturesProcessing(Set<Creature> creatureSet) {
         for (Creature creature : creatureSet) {
+            if (!creature.isAlive()) {
+                continue;
+            }
             singleCreatureProcessing(creature);
             if (creature instanceof AbleToEat ableToEat) {
                 starvationDeath.killIfLowSatiety(ableToEat);
@@ -43,8 +53,8 @@ public class LifeCycle {
 
     private void singleCreatureProcessing(Creature creature) {
         if (creature instanceof AbleToEat ableToEat) {
-            if (ableToEat.getSatiety() < ableToEat.getFullSatiety()) {
-                eating.eat(ableToEat, creature.getLocation());
+            boolean eat = eating.eat(ableToEat, creature.getLocation());
+            if (eat) {
                 return;
             }
         }

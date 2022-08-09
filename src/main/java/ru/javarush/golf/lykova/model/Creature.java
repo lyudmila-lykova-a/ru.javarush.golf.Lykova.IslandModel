@@ -6,6 +6,7 @@ public abstract class Creature {
     private final int maxCountInLocation;
     private final int maxSpeed;
     private Location location;
+    private boolean alive = true;
 
     public Creature(double weight, int maxCountInLocation, int maxSpeed) {
         this.weight = weight;
@@ -33,6 +34,15 @@ public abstract class Creature {
     public Location getLocation() {
         // todo check location is not null
         return location;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void die() {
+        location = null;
+        alive = false;
     }
 
     @Override

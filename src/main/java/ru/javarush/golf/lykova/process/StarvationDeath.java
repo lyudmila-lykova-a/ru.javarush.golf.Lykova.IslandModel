@@ -6,7 +6,7 @@ import ru.javarush.golf.lykova.model.Creature;
 public class StarvationDeath {
 
     public void killIfLowSatiety(AbleToEat ableToEat) {
-       ableToEat.hunger();
+        ableToEat.hunger();
         if (ableToEat.getSatiety() == 0 && ableToEat instanceof Creature creature) {
             creature.getLocation().killCreature(creature);
         }

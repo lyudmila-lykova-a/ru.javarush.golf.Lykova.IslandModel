@@ -7,9 +7,9 @@ import ru.javarush.golf.lykova.model.Wolf;
 
 public enum CreatureType {
 
-    WOLF(Wolf.class, 2),
-    MOUSE(Mouse.class, 2),
-    PLANT(Plant.class, 2);
+    WOLF(Wolf.class, 10),
+    MOUSE(Mouse.class, 100),
+    PLANT(Plant.class, 10);
 
     private final Class<? extends Creature> creatureClass;
     private final int initAmount;

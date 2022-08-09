@@ -11,22 +11,23 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Eating {
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public void eat(AbleToEat ableToEat, Location location){
+    public boolean eat(AbleToEat ableToEat, Location location){
         if (ableToEat.getSatiety() >= ableToEat.getFullSatiety()) {
-            return;
+            return false;
         }
         Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap = ableToEat.getCreatureClassToEatingPossibilityMap();
         List<Creature> eatableCreaturesList = location.takeCreatures(creatureClassToEatingPossibilityMap.keySet());
         if (eatableCreaturesList.isEmpty()) {
-            return;
+            return false;
         }
         Creature victimCreature = eatableCreaturesList.get(random.nextInt(eatableCreaturesList.size()));
         Double eatingPossibility = creatureClassToEatingPossibilityMap.get(victimCreature.getClass());
         if (random.nextDouble() >= eatingPossibility) {
-            return;
+            return false;
         }
         ableToEat.eat(victimCreature);
         victimCreature.getLocation().killCreature(victimCreature);
+        return true;
     }
 }
 

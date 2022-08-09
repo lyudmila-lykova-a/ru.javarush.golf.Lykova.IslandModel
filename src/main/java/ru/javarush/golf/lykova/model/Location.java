@@ -30,7 +30,7 @@ public class Location {
     }
 
     public void killCreature(Creature creature) {
-        creature.setLocation(null);
+        creature.die();
         creatureList.remove(creature);
     }
 
