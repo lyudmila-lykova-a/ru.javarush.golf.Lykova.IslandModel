@@ -1,6 +1,5 @@
 package ru.javarush.golf.lykova.process;
 
-import ru.javarush.golf.lykova.model.Animal;
 import ru.javarush.golf.lykova.model.Location;
 import ru.javarush.golf.lykova.model.Reproductable;
 
@@ -10,17 +9,18 @@ public class Reproduction {
 
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
-    public void reproduce(Reproductable reproductable, Location location, int amountOnLocation, int maxCountInLocation) {
+    public boolean reproduce(Reproductable reproductable, Location location, int amountOnLocation, int maxCountInLocation) {
         if (amountOnLocation >= maxCountInLocation) {
-            return;
+            return false;
         }
         if (amountOnLocation < 2) {
-            return;
+            return false;
         }
         double reproductionPossibility = reproductable.getReproductionPossibility();
         if (random.nextDouble() >= reproductionPossibility) {
-            return;
+            return false;
         }
-       location.add(reproductable.reproduction());
+        location.add(reproductable.reproduction());
+        return true;
     }
 }

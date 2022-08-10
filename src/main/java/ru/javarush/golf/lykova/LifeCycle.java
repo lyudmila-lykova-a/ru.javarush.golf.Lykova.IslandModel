@@ -61,12 +61,11 @@ public class LifeCycle {
 
         if (creature instanceof Reproductable reproductable) {
             int amountOnLocation = creature.getLocation().takeCreatureAmount(creature);
-            if (amountOnLocation > 1) {
-                reproduction.reproduce(reproductable, creature.getLocation(), amountOnLocation, creature.getMaxCountInLocation());
+            boolean reproduce = reproduction.reproduce(reproductable, creature.getLocation(), amountOnLocation, creature.getMaxCountInLocation());
+            if (reproduce) {
                 return;
             }
         }
-
         relocation.relocate(island, creature);
     }
 
