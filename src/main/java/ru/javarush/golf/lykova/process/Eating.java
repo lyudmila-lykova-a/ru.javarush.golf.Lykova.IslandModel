@@ -1,5 +1,6 @@
 package ru.javarush.golf.lykova.process;
 
+import ru.javarush.golf.lykova.config.CreatureType;
 import ru.javarush.golf.lykova.model.AbleToEat;
 import ru.javarush.golf.lykova.model.Creature;
 import ru.javarush.golf.lykova.model.Location;
@@ -15,13 +16,13 @@ public class Eating {
         if (ableToEat.getSatiety() >= ableToEat.getFullSatiety()) {
             return false;
         }
-        Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap = ableToEat.getCreatureClassToEatingPossibilityMap();
-        List<Creature> eatableCreaturesList = location.takeCreatures(creatureClassToEatingPossibilityMap.keySet());
+        Map<CreatureType, Double> creatureTypeToEatingPossibilityMap = ableToEat.getCreatureTypeToEatingPossibilityMap();
+        List<Creature> eatableCreaturesList = location.takeCreatures(creatureTypeToEatingPossibilityMap.keySet());
         if (eatableCreaturesList.isEmpty()) {
             return false;
         }
         Creature victimCreature = eatableCreaturesList.get(random.nextInt(eatableCreaturesList.size()));
-        Double eatingPossibility = creatureClassToEatingPossibilityMap.get(victimCreature.getClass());
+        Double eatingPossibility = creatureTypeToEatingPossibilityMap.get(victimCreature.getCreatureType());
         if (random.nextDouble() >= eatingPossibility) {
             return false;
         }

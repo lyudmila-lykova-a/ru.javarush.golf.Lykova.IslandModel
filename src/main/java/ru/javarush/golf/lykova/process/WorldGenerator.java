@@ -1,6 +1,7 @@
 package ru.javarush.golf.lykova.process;
 
 import ru.javarush.golf.lykova.config.CreatureType;
+import ru.javarush.golf.lykova.config.EatingPossibilityMapper;
 import ru.javarush.golf.lykova.model.Creature;
 import ru.javarush.golf.lykova.model.Island;
 import ru.javarush.golf.lykova.model.Location;
@@ -21,20 +22,20 @@ public class WorldGenerator {
         this.height = height;
     }
 
-    public Island generate() throws ReflectiveOperationException {
+    public Island generate() {
+        new EatingPossibilityMapper().initMapping();
         Island island = new Island(width, height);
         for (CreatureType creatureType : CreatureType.values()) {
-            List<Creature> creatures = generateCreaturesByType(creatureType.getCreatureClass(), creatureType.getInitAmount());
+            List<Creature> creatures = generateCreaturesByType(creatureType);
             creatures.forEach(creature -> allocate(island, creature));
         }
         return island;
     }
 
-    private List<Creature> generateCreaturesByType(Class<? extends Creature> creatureClass, int amount) throws ReflectiveOperationException {
+    private List<Creature> generateCreaturesByType(CreatureType creatureType) {
         List<Creature> result = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            Creature creature = creatureClass.getConstructor().newInstance();
-            result.add(creature);
+        for (int i = 0; i < creatureType.getMaxCountInLocation(); i++) {
+            result.add(creatureType.reproduction());
         }
         return result;
     }

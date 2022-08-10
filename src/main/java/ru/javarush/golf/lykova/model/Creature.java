@@ -1,30 +1,31 @@
 package ru.javarush.golf.lykova.model;
 
-public abstract class Creature {
+import ru.javarush.golf.lykova.config.CreatureType;
 
-    private final double weight;
-    private final int maxCountInLocation;
-    private final int maxSpeed;
+public class Creature {
+
+    protected final CreatureType creatureType;
     private Location location;
     private boolean alive = true;
 
-    public Creature(double weight, int maxCountInLocation, int maxSpeed) {
-        this.weight = weight;
-        this.maxCountInLocation = maxCountInLocation;
-        this.maxSpeed = maxSpeed;
+    public Creature(CreatureType creatureType) {
+        this.creatureType = creatureType;
     }
 
     public double getWeight() {
-        return weight;
+        return creatureType.getWeight();
+    }
+
+    public CreatureType getCreatureType() {
+        return creatureType;
     }
 
     public int getMaxCountInLocation() {
-        return maxCountInLocation;
+        return creatureType.getMaxCountInLocation();
     }
 
-    // todo move out?
     public int getMaxSpeed() {
-        return maxSpeed;
+        return creatureType.getMaxSpeed();
     }
 
     public void setLocation(Location location) {
@@ -32,7 +33,6 @@ public abstract class Creature {
     }
 
     public Location getLocation() {
-        // todo check location is not null
         return location;
     }
 
@@ -45,8 +45,4 @@ public abstract class Creature {
         alive = false;
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
 }

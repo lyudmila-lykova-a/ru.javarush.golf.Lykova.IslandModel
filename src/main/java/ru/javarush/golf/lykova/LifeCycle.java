@@ -17,7 +17,7 @@ public class LifeCycle {
     private final IslandInfo islandInfo = new IslandInfo();
     private Island island;
 
-    public void startLife() throws ReflectiveOperationException {
+    public void startLife() {
         WorldGenerator worldGenerator = new WorldGenerator(ApplicationConfig.ISLAND_WIDTH, ApplicationConfig.ISLAND_HEIGHT);
         island = worldGenerator.generate();
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(

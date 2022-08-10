@@ -1,34 +1,28 @@
 package ru.javarush.golf.lykova.model;
 
 import ru.javarush.golf.lykova.config.ApplicationConfig;
+import ru.javarush.golf.lykova.config.CreatureType;
 
 import java.util.Collections;
 import java.util.Map;
 
-public abstract class Animal extends Creature implements AbleToEat, Reproductable {
+public class Animal extends Creature implements AbleToEat, Reproductable {
 
-    private final Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap;
-    private final double fullSatiety;
     private double satiety; // сытость, кг
-    private final double reproductionPossibility; // вероятность размножения 0 - 1;
 
-    public Animal(double width, int maxCountInLocation, int maxSpeed, double reproductionPossibility,
-                  Map<Class<? extends Creature>, Double> creatureClassToEatingPossibilityMap, double satiety) {
-        super(width, maxCountInLocation, maxSpeed);
-        this.creatureClassToEatingPossibilityMap = creatureClassToEatingPossibilityMap;
-        this.fullSatiety = satiety;
-        this.satiety = satiety;
-        this.reproductionPossibility = reproductionPossibility;
+    public Animal(CreatureType creatureType) {
+        super(creatureType);
+        this.satiety = creatureType.getFullSatiety();
     }
 
     @Override
     public void eat(Creature creature) {
-        satiety = Math.min(satiety + creature.getWeight(), fullSatiety);
+        satiety = Math.min(satiety + creature.getWeight(), creatureType.getFullSatiety());
     }
 
     @Override
-    public Map<Class<? extends Creature>, Double> getCreatureClassToEatingPossibilityMap() {
-        return Collections.unmodifiableMap(creatureClassToEatingPossibilityMap);
+    public Map<CreatureType, Double> getCreatureTypeToEatingPossibilityMap() {
+        return Collections.unmodifiableMap(creatureType.getCreatureTypeToEatingPossibilityMap());
     }
 
     @Override
@@ -38,17 +32,22 @@ public abstract class Animal extends Creature implements AbleToEat, Reproductabl
 
     @Override
     public double getFullSatiety() {
-        return fullSatiety;
+        return creatureType.getFullSatiety();
     }
 
     @Override
     public double getReproductionPossibility() {
-        return reproductionPossibility;
+        return creatureType.getReproductionPossibility();
+    }
+
+    @Override
+    public Creature reproduction() {
+        return creatureType.reproduction();
     }
 
     @Override
     public void hunger() {
-        double decreaseSatiety = satiety - fullSatiety * ApplicationConfig.HUNGER_FACTOR;
+        double decreaseSatiety = satiety - creatureType.getFullSatiety() * ApplicationConfig.HUNGER_FACTOR;
         satiety = Math.max(satiety - decreaseSatiety, 0);
     }
 

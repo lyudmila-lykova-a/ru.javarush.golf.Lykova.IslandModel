@@ -1,5 +1,7 @@
 package ru.javarush.golf.lykova.model;
 
+import ru.javarush.golf.lykova.config.CreatureType;
+
 import java.util.*;
 
 public class Location {
@@ -37,17 +39,17 @@ public class Location {
     public int takeCreatureAmount(Creature creature) {
         int result = 0;
         for (Creature currentCreature : creatureList) {
-            if (currentCreature.getClass().getName().equals(creature.getClass().getName())) {
+            if (currentCreature.getCreatureType() == creature.getCreatureType()) {
                 result++;
             }
         }
         return result;
     }
 
-    public List<Creature> takeCreatures(Collection<Class<? extends Creature>> creatureClassList) {
+    public List<Creature> takeCreatures(Collection<CreatureType> creatureTypeList) {
         List<Creature> result = new ArrayList<>();
         for (Creature creature : creatureList) {
-            if (creatureClassList.contains(creature.getClass())) {
+            if (creatureTypeList.contains(creature.getCreatureType())) {
                 result.add(creature);
             }
         }
