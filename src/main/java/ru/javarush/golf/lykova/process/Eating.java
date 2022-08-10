@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Eating {
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public boolean eat(AbleToEat ableToEat, Location location){
         if (ableToEat.getSatiety() >= ableToEat.getFullSatiety()) {
@@ -21,9 +20,9 @@ public class Eating {
         if (eatableCreaturesList.isEmpty()) {
             return false;
         }
-        Creature victimCreature = eatableCreaturesList.get(random.nextInt(eatableCreaturesList.size()));
+        Creature victimCreature = eatableCreaturesList.get(ThreadLocalRandom.current().nextInt(eatableCreaturesList.size()));
         Double eatingPossibility = creatureTypeToEatingPossibilityMap.get(victimCreature.getCreatureType());
-        if (random.nextDouble() >= eatingPossibility) {
+        if (ThreadLocalRandom.current().nextDouble() >= eatingPossibility) {
             return false;
         }
         ableToEat.eat(victimCreature);

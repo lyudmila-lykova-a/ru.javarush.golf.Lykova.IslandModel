@@ -9,8 +9,8 @@ import java.util.Map;
 public enum CreatureType {
 
     WOLF(Animal.class, 10, 50, 30, 3, 0.5, 8),
-    MOUSE(Animal.class, 100, 0.05, 500, 1, 0.5, 0.01),
-    PLANT(Creature.class, 10, 1.0, 200, 0, 0, 1);
+    MOUSE(Animal.class, 10, 0.05, 500, 1, 0.5, 0.01),
+    PLANT(Creature.class, 0, 1.0, 200, 0, 0, 1);
 
 
     private final Class<? extends Creature> creatureClass;
@@ -51,6 +51,10 @@ public enum CreatureType {
 
     public int getMaxCountInLocation() {
         return maxCountInLocation;
+    }
+
+    public int getInitAmount() {
+        return initAmount;
     }
 
     public int getMaxSpeed() {

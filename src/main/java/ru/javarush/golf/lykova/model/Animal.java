@@ -47,7 +47,7 @@ public class Animal extends Creature implements AbleToEat, Reproductable {
 
     @Override
     public void hunger() {
-        double decreaseSatiety = satiety - creatureType.getFullSatiety() * ApplicationConfig.HUNGER_FACTOR;
+        double decreaseSatiety = creatureType.getFullSatiety() * ApplicationConfig.HUNGER_FACTOR;
         satiety = Math.max(satiety - decreaseSatiety, 0);
     }
 

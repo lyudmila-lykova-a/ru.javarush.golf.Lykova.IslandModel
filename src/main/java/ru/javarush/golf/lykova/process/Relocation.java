@@ -8,14 +8,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Relocation {
 
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
-
-    public void relocate(Island island, Creature creature) {
+    public boolean relocate(Island island, Creature creature) {
         int xOffset = 0;
         int yOffset = 0;
-        int stepsCount = random.nextInt(creature.getMaxSpeed() + 1);
+        int stepsCount = ThreadLocalRandom.current().nextInt(creature.getMaxSpeed() + 1);
         for (int i = 0; i < stepsCount; i++) {
-            int direction = random.nextInt(4);
+            int direction = ThreadLocalRandom.current().nextInt(4);
             switch(direction) {
                 case 0 -> xOffset++;
                 case 1 -> yOffset++;
@@ -24,12 +22,14 @@ public class Relocation {
             }
         }
         if (xOffset == 0 && yOffset == 0) {
-            return;
+            return false;
         }
         Location possibleLocation = island.takeLocationByOffset(creature, xOffset, yOffset);
         if (canRelocate(possibleLocation, creature)) {
             island.moveOffset(creature, xOffset, yOffset);
+            return true;
         }
+        return false;
     }
 
     private boolean canRelocate(Location possibleLocation, Creature creature) {

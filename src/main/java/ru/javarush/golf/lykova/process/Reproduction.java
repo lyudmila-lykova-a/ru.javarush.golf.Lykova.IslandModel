@@ -7,8 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Reproduction {
 
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
-
     public boolean reproduce(Reproductable reproductable, Location location, int amountOnLocation, int maxCountInLocation) {
         if (amountOnLocation >= maxCountInLocation) {
             return false;
@@ -17,7 +15,7 @@ public class Reproduction {
             return false;
         }
         double reproductionPossibility = reproductable.getReproductionPossibility();
-        if (random.nextDouble() >= reproductionPossibility) {
+        if (ThreadLocalRandom.current().nextDouble() >= reproductionPossibility) {
             return false;
         }
         location.add(reproductable.reproduction());
