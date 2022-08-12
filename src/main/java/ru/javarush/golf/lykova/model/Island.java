@@ -13,7 +13,7 @@ public class Island {
     public Island(int width, int height) {
         this.width = width;
         this.height = height;
-        this.locations = new Location[width][height];
+        this.locations = new Location [height][width];
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 locations[y][x] = new Location(x, y);
