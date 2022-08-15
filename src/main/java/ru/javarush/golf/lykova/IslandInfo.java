@@ -22,6 +22,7 @@ public class IslandInfo {
         for (Map.Entry<CreatureType, Integer> entry : classToAmountMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
+        System.out.println();
     }
 
     private void printHeader() {

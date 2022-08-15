@@ -5,9 +5,8 @@ import ru.javarush.golf.lykova.model.*;
 import ru.javarush.golf.lykova.process.*;
 
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LifeCycle {
 
@@ -18,9 +17,9 @@ public class LifeCycle {
     private final IslandInfo islandInfo = new IslandInfo();
     private Island island;
     private ScheduledExecutorService executorService;
-    private boolean hasLife;
-    private boolean hasAction;
-
+    private final AtomicBoolean hasLife = new AtomicBoolean();
+    private final AtomicBoolean hasAction = new AtomicBoolean();
+    private CountDownLatch countDownLatch;
 
     public void startLife() {
         WorldGenerator worldGenerator = new WorldGenerator(ApplicationConfig.ISLAND_WIDTH, ApplicationConfig.ISLAND_HEIGHT);
@@ -34,21 +33,38 @@ public class LifeCycle {
     }
 
     private void iterationProcessing() {
-        hasLife = false;
-        hasAction = false;
+        hasLife.set(false);
+        hasAction.set(false);
         try {
-            for (Location location : island.takeAllLocations()) {
-                creaturesProcessing(location.takeAllCreatures());
+            ExecutorService iterationExecutorService = Executors.newCachedThreadPool();
+            Set<Location> allLocations = island.takeAllLocations();
+            countDownLatch = new CountDownLatch(allLocations.size());
+
+            for (Location location : allLocations) {
+                Set<Creature> allCreaturesOnLocation = location.takeAllCreatures();
+                iterationExecutorService.execute(() -> {
+                    try {
+                        creaturesProcessing(allCreaturesOnLocation);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        countDownLatch.countDown();
+                    }
+                });
             }
+            if (!countDownLatch.await(5, TimeUnit.SECONDS)) {
+                System.out.println("Iteration processing interrupted after 5 seconds.");
+            }
+            iterationExecutorService.shutdown();
             islandInfo.printIslandInfo(island);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (!hasLife) {
+        if (!hasLife.get()) {
             System.out.println("Все умерли. Симуляция создания мира завершена.");
             executorService.shutdown();
         }
-        if (!hasAction) {
+        if (!hasAction.get()) {
             System.out.println("Активности нет. Симуляция мира остановлена.");
             executorService.shutdown();
         }
@@ -59,7 +75,7 @@ public class LifeCycle {
             if (!creature.isAlive()) {
                 continue;
             }
-            hasLife = true;
+            hasLife.set(true);
             singleCreatureProcessing(creature);
             if (creature instanceof AbleToEat ableToEat) {
                 starvationDeath.killIfLowSatiety(ableToEat);
@@ -71,7 +87,7 @@ public class LifeCycle {
         if (creature instanceof AbleToEat ableToEat) {
             boolean eat = eating.eat(ableToEat, creature.getLocation());
             if (eat) {
-                hasAction = true;
+                hasAction.set(true);
                 return;
             }
         }
@@ -80,13 +96,15 @@ public class LifeCycle {
             int amountOnLocation = creature.getLocation().takeCreatureAmount(creature);
             boolean reproduce = reproduction.reproduce(reproductable, creature.getLocation(), amountOnLocation, creature.getMaxCountInLocation());
             if (reproduce) {
-                hasAction = true;
+                hasAction.set(true);
                 return;
             }
         }
 
         boolean relocate = relocation.relocate(island, creature);
-        hasAction |= relocate;
+        if (relocate) {
+            hasAction.set(true);
+        }
     }
 
 }

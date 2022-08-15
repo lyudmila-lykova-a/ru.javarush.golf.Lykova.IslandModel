@@ -14,7 +14,7 @@ public class Relocation {
         int stepsCount = ThreadLocalRandom.current().nextInt(creature.getMaxSpeed() + 1);
         for (int i = 0; i < stepsCount; i++) {
             int direction = ThreadLocalRandom.current().nextInt(4);
-            switch(direction) {
+            switch (direction) {
                 case 0 -> xOffset++;
                 case 1 -> yOffset++;
                 case 2 -> xOffset--;
@@ -25,9 +25,11 @@ public class Relocation {
             return false;
         }
         Location possibleLocation = island.takeLocationByOffset(creature, xOffset, yOffset);
-        if (canRelocate(possibleLocation, creature)) {
-            island.moveOffset(creature, xOffset, yOffset);
-            return true;
+        synchronized (this) {
+            if (canRelocate(possibleLocation, creature)) {
+                island.moveOffset(creature, xOffset, yOffset);
+                return true;
+            }
         }
         return false;
     }

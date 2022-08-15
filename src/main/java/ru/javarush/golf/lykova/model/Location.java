@@ -3,12 +3,13 @@ package ru.javarush.golf.lykova.model;
 import ru.javarush.golf.lykova.config.CreatureType;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Location {
 
     private final int x;
     private final int y;
-    private final List<Creature> creatureList = new ArrayList<>();
+    private final List<Creature> creatureList = new CopyOnWriteArrayList<>();
 
     public Location(int x, int y) {
         this.x = x;
